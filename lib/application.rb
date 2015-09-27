@@ -9,6 +9,7 @@ def populate_databases
 
   course_list.each do |course|
     co = Course_row.new
+    co.program = course.program
     co.name    = course.name
     co.url     = course.url
     co.desc    = course.description
@@ -31,12 +32,21 @@ def print_database_content
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/courses.db")
   @courses = Course_row.all
   @courses.each do |c|
-    puts c.name
-    puts c.url
-    puts c.desc
-    puts c.credits
+    puts "Course: #{c.name}"
+    puts "Program: #{c.program}"
+    puts "URL: #{c.url}"
+    puts "Description: #{c.desc}"
+    puts "Credits: #{c.credits}"
+    @prereqs = Prereq.all(:parent_name => c.name)
+    puts "Prerequisits" if @prereqs.length >= 1
+    @prereqs.each do |p|
+        puts p.prereq_name
+    end
+
+    puts "\n"
   end
 
+=begin
   @prereqs = Prereq.all
   @prereqs.each do |p|
     puts "Parent: #{p.parent_name}"
@@ -44,6 +54,7 @@ def print_database_content
     puts "Prereq name: #{p.prereq_name}"
     puts "Prereq URL: #{p.prereq_url}"
   end
+=end
 end
 
 # For testing

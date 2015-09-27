@@ -6,6 +6,7 @@ DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/courses.db")
 class Course_row
   include DataMapper::Resource
   property :id, Serial
+  property :program, Text, :required => true
   property :name, Text, :required => true
   property :url, Text, :required => true
   property :desc, Text, :required => false

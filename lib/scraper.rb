@@ -99,6 +99,7 @@ class Scraper
 
     course_list.each do |course|
       parsed = scraper.parse_html(course.url)
+      course.program = program
       course.description = scraper.scrape_course_description(parsed)
       course.credits = scraper.scrape_course_credits(parsed)
       scraper.scrape_course_prereqs(parsed).each do |prereq|
