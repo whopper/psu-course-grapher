@@ -35,7 +35,7 @@ describe Scraper do
       prereqs = subject.scrape_course_prereqs(parsed_html)
       expect(prereqs.length).to eq(1)
       expect(prereqs[0].name).to eq('CS 162')
-      expect(prereqs[0].url).to eq('/en/CS-162')
+      expect(prereqs[0].url).to eq('http://pdx.smartcatalogiq.com/en/CS-162')
     end
   end
 end
