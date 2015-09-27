@@ -57,7 +57,7 @@ class Scraper
     parsed_html.css('a.sc-courselink').each do |link|
       co = Course.new
       co.name = link.children.text
-      co.url = link.attributes['href'].value
+      co.url = 'http://pdx.smartcatalogiq.com' + link.attributes['href'].value
       prereqs << co
     end
 
