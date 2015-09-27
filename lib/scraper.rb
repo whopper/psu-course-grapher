@@ -36,6 +36,7 @@ class Scraper
   # Scrapes the detailed course info page of a course for number of course credits.
   # @param [String] parsed_html Nokogiri-parsed html of the detailed class info page.
   # @return [String] credits The number of credits.
+  # TODO: Some classes have the <h3> inside of the div. Need to correct for that.
   def scrape_course_credits(parsed_html)
     if (parsed_html.css('div.credits')[0])
       parsed_html.css('div.credits')[0].children.text.strip
@@ -47,14 +48,17 @@ class Scraper
   # method: scrape_course_prereqs
   # Scrapes the detailed course info page of a course for prerequisite classes.
   # @param [String] parsed_html Nokogiri-parsed html of the detailed class info page.
-  # @return [Array<String>] Array of course names which are prereqs.
+  # @return [Array<Course>] Array of courses which are prereqs
   # TODO: Make sure we can link these strings to the courses themselves.
   # TODO: Have to tell the difference between co-preqeqs, prereqs, recommended, etc.
   def scrape_course_prereqs(parsed_html)
     prereqs = Array.new
 
     parsed_html.css('a.sc-courselink').each do |link|
-      prereqs << link.children.text
+      co = Course.new
+      co.name = link.children.text
+      co.url = link.attributes['href'].value
+      prereqs << co
     end
 
     prereqs
